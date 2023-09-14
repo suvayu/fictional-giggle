@@ -33,7 +33,7 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
   build-comment:
-    if: ${{ contains(github.event.comment.body, 'run-benchmark') }}
+    if: ${{ contains(github.event.comment.body, '/run-benchmark') }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
