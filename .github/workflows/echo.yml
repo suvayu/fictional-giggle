@@ -43,7 +43,8 @@ jobs:
           ref: ${{ steps.find-ref.outputs.REF }}
       - name: Show top commit
         id: git-commit
-        run: printf "COMMIT=%s" "$(git log -1)" >> "$GITHUB_OUTPUT"
+        run: |
+          { echo 'COMMIT<<EOF'; git log -1; echo EOF; } >> "$GITHUB_OUTPUT"
       - uses: actions/github-script@v6
         with:
           script: |
