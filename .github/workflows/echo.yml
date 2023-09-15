@@ -53,11 +53,11 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const pr = github.rest.pulls.get(
+            const pr = github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: github.event.issue.number
-            )
+            })
             return pr.head.ref
       - name: PR ref
         run: echo ${{ steps.find-ref.outputs.result }}
