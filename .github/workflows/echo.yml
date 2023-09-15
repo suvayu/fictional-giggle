@@ -57,17 +57,18 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number
             })
-            return { repo: pr.data.head.repo.full_name, ref: pr.data.head.ref }
+            core.setOutput('repo', pr.data.head.repo.full_name)
+            core.setOutput('ref', pr.data.head.ref)
       - name: PR repo-ref
-        run: echo ${{ toJSON(steps.find-ref.outputs.result) }}
+        run: echo ${{ steps.find-ref.outputs.repo }} ${{ steps.find-ref.outputs.ref }}
       - uses: actions/checkout@v4
         with:
-          repository: ${{ steps.find-ref.outputs.result.repo }}
-          ref: ${{ steps.find-ref.outputs.result.ref }}
+          repository: ${{ steps.find-ref.outputs.repo }}
+          ref: ${{ steps.find-ref.outputs.ref }}
       - name: Show top commit
         id: git-commit
         run: |
-          { echo 'COMMIT<<EOF'; git log -1; echo EOF; } >> "$GITHUB_OUTPUT"
+          { echo 'COMMIT<<EOF'; echo '```'; git log -1; echo '```'; echo EOF; } >> "$GITHUB_OUTPUT"
       - uses: actions/github-script@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
