@@ -56,11 +56,14 @@ jobs:
             const pr = github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: github.event.issue.number
+              pull_number: context.issue.number
             })
             return pr.head.ref
       - name: PR ref
         run: echo ${{ steps.find-ref.outputs.result }}
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.find-ref.outputs.result }}
       - uses: actions/github-script@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
