@@ -68,7 +68,7 @@ jobs:
       - name: Show top commit
         id: git-commit
         run: |
-          { echo 'COMMIT<<EOF'; echo '```'; git log -1; echo '```'; echo EOF; } >> "$GITHUB_OUTPUT"
+          { echo 'COMMIT<<EOF'; echo '\`\`\`'; git log -1; echo '\`\`\`'; echo EOF; } >> "$GITHUB_OUTPUT"
       - uses: actions/github-script@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
