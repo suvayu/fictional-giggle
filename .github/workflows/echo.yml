@@ -59,7 +59,7 @@ jobs:
             });
             return pr
       - name: PR ref
-        run: echo ${{ steps.find-ref.outputs.result }}
+        run: echo "${{ toJSON(steps.find-ref.outputs.result) }}"
       - uses: actions/checkout@v4
         with:
           ref: ${{ steps.find-ref.outputs.result }}
