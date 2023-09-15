@@ -51,19 +51,19 @@ jobs:
       - uses: actions/github-script@v6
         id: find-ref
         with:
-          result-encoding: string
           script: |
             const pr = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number
             })
-            return pr.data.head.ref
-      - name: PR ref
-        run: echo git checkout ${{ steps.find-ref.outputs.result }}
+            return { repo: pr.data.head.repo.full_name, ref: pr.data.head.ref }
+      - name: PR repo-ref
+        run: echo ${{ toJSON(steps.find-ref.outputs.result) }}
       - uses: actions/checkout@v4
         with:
-          ref: ${{ steps.find-ref.outputs.result }}
+          repository: ${{ steps.find-ref.outputs.result.repo }}
+          ref: ${{ steps.find-ref.outputs.result.ref }}
       - name: Show top commit
         id: git-commit
         run: |
