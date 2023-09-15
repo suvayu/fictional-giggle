@@ -57,7 +57,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number
-            })
+            });
+            console.log(pr);
             return pr.head.ref
       - name: PR ref
         run: echo ${{ steps.find-ref.outputs.result }}
