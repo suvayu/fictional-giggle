@@ -51,15 +51,13 @@ jobs:
       - uses: actions/github-script@v6
         id: find-ref
         with:
-          result-encoding: string
           script: |
             const pr = github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number
             });
-            console.log(pr);
-            return pr.head.ref
+            return pr
       - name: PR ref
         run: echo ${{ steps.find-ref.outputs.result }}
       - uses: actions/checkout@v4
