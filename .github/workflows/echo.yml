@@ -69,6 +69,7 @@ jobs:
         id: git-commit
         run: |
           { echo 'COMMIT<<EOF'; echo '\`\`\`'; git log -1; echo '\`\`\`'; echo EOF; } >> "$GITHUB_OUTPUT"
+          { echo '```'; sed -e '1d;$d' "$GITHUB_OUTPUT"; echo '```'; } >> $GITHUB_STEP_SUMMARY
       - uses: actions/github-script@v6
         with:
           script: |
