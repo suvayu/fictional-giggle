@@ -68,7 +68,7 @@ jobs:
       - name: Show top commit
         id: git-commit
         run: |
-          { echo 'COMMIT<<EOF'; echo '\`\`\`'; git log -1; echo '\`\`\`'; echo EOF; } >> "$GITHUB_OUTPUT"
+          { echo 'COMMIT<<EOF'; git log -1; echo EOF; } >> "$GITHUB_OUTPUT"
           { echo '```'; sed -e '1d;$d' "$GITHUB_OUTPUT"; echo '```'; } >> $GITHUB_STEP_SUMMARY
       - uses: actions/github-script@v6
         with:
@@ -77,5 +77,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `${{ steps.git-commit.outputs.COMMIT }}`
+              body: `\`\`\`\n${{ steps.git-commit.outputs.COMMIT }}\n\`\`\``
             })
