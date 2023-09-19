@@ -69,8 +69,8 @@ jobs:
                 core.setOutput('ref', pr.data.head.ref)
             }
             if (context.eventName == 'workflow_dispatch') {
-                core.setOutput('repo', ${{ inputs.repo }})
-                core.setOutput('ref', ${{ inputs.ref }})
+                core.setOutput('repo', '${{ inputs.repo }}')
+                core.setOutput('ref', '${{ inputs.ref }}')
             }
       - name: PR repo-ref
         run: echo ${{ steps.find-ref.outputs.repo }} ${{ steps.find-ref.outputs.ref }}
