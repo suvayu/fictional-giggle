@@ -61,23 +61,21 @@ jobs:
       #     { echo 'COMMIT<<EOF'; git log -1; echo EOF; } >> "$GITHUB_OUTPUT"
       - uses: actions/github-script@v6
         id: find-ref
-        if: github.event.issue.pull_request
         with:
           script: |
-            const pr = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number
-            })
-            core.setOutput('repo', pr.data.head.repo.full_name)
-            core.setOutput('ref', pr.data.head.ref)
-      - uses: actions/github-script@v6
-        id: find-ref
-        if: github.event.workflow_dispatch
-        with:
-          script: |
-            core.setOutput('repo', ${{ inputs.repo }})
-            core.setOutput('ref', ${{ inputs.ref }})
+            if (context.eventName == 'pull_request' }}) {
+                const pr = await github.rest.pulls.get({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: context.issue.number
+                })
+                core.setOutput('repo', pr.data.head.repo.full_name)
+                core.setOutput('ref', pr.data.head.ref)
+            }
+            if (context.eventName == 'workflow_dispatch' }}) {
+                core.setOutput('repo', ${{ inputs.repo }})
+                core.setOutput('ref', ${{ inputs.ref }})
+            }
       - name: PR repo-ref
         run: echo ${{ steps.find-ref.outputs.repo }} ${{ steps.find-ref.outputs.ref }}
       - uses: actions/checkout@v4
