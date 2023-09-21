@@ -15,9 +15,9 @@ on:
         type: string
         default: ''
       ref:
-        description: Git branch/tag/reference to benchmark
+        description: Git branch/tag/reference to benchmark, empty denotes current branch
         type: string
-        default: main
+        default: ''
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
