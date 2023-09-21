@@ -22,8 +22,8 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    # if: ${{ github.event.issue.pull_request }}
+  build-pr:
+    if: github.event.issue.pull_request
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -35,7 +35,9 @@ jobs:
         run: echo "${{ toJSON(github.event) }}"
 
   build-comment:
-    if: (github.event.issue.pull_request && contains(github.event.comment.body, '/run-benchmark')) || github.event_name == 'workflow_dispatch'
+    if: |
+      (github.event.issue.pull_request && contains(github.event.comment.body, '/run-benchmark')) ||
+      github.event_name == 'workflow_dispatch'
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     permissions:
