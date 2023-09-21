@@ -71,6 +71,9 @@ jobs:
                 core.setOutput('ref', pr.data.head.ref)
             }
             if (context.eventName == 'workflow_dispatch') {
+                if ('${{ inputs.repo }}' == "" && '${{ inputs.ref }}' == "main") {
+                    core.setFailed("cannot run benchmark against current repo's main")
+                }
                 core.setOutput('repo', '${{ inputs.repo }}')
                 core.setOutput('ref', '${{ inputs.ref }}')
             }
