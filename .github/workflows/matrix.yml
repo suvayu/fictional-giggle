@@ -1,0 +1,24 @@
+# experiment with triggering events: push, pull_request
+
+name: CI matrix
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ver: ["3.10", "3.11", "3.12"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: windows-latest
+            flag: "true"
+          - os: windows-latest
+            flag: "false"
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Echo
+        run: echo ${{ matrix.ver }} ${{ matrix.flag }}
