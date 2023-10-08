@@ -14,8 +14,10 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         include:
           - os: windows-latest
+            ver: "3.12"
             flag: "true"
           - os: windows-latest
+            ver: "3.12"
             flag: "false"
 
     steps:
