@@ -34,6 +34,7 @@ jobs:
       - name: Echo
         run: echo ${{ matrix.ver }} ${{ matrix.os }} ${{ matrix.flag }}
       - name: fail
+        if: matrix.os == 'windows-latest'
         run: false
       - name: Debug
         if: failure() || (github.event_name == 'workflow_dispatch' && inputs.debug)
