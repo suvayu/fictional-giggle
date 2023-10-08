@@ -12,15 +12,17 @@ jobs:
       matrix:
         ver: ["3.10", "3.11", "3.12"]
         os: [ubuntu-latest, macos-latest, windows-latest]
-        include:
-          - os: windows-latest
-            ver: "3.12"
+        flag: ["true", "false"]
+        exclude:
+          - os: ubuntu-latest
             flag: "true"
-          - os: windows-latest
-            ver: "3.12"
-            flag: "false"
+          - os: macos-latest
+            flag: "true"
 
     steps:
       - uses: actions/checkout@v3
+      - name: Disable autocrlf so that we can test preserve LE on Windows
+        if: ${{ matrix.os }} == "windows-latest"
+        run: git config --global core.autocrlf ${{ matrix.flag }}
       - name: Echo
         run: echo ${{ matrix.ver }} ${{ matrix.os }} ${{ matrix.flag }}
