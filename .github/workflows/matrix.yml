@@ -2,7 +2,14 @@
 
 name: CI matrix
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      debug:
+        type: boolean
+        description: "Activate tmate session for debugging"
+        default: false
 
 jobs:
   build:
@@ -26,3 +33,10 @@ jobs:
         run: git config --global core.autocrlf ${{ matrix.flag }}
       - name: Echo
         run: echo ${{ matrix.ver }} ${{ matrix.os }} ${{ matrix.flag }}
+      - name: fail
+        run: false
+      - name: Debug
+        if: failure() || (github.event_name == 'workflow_dispatch' && inputs.debug)
+        uses: mxschmitt/action-tmate@v3
+      - name: Done
+        run: echo done
