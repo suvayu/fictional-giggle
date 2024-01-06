@@ -39,7 +39,5 @@ jobs:
       - name: Debug
         if: failure() || (github.event_name == 'workflow_dispatch' && inputs.debug)
         uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: false
       - name: Done
         run: echo done
