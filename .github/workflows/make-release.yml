@@ -53,4 +53,4 @@ jobs:
           \## Changes
           See the [README](https://github.com/suvayu/literate-octo-umbrella/blob/${{ inputs.git-tag }}/README.md)
         files: |
-          dist/*.whl
+          literate-octo-umbrella/dist/*.whl
