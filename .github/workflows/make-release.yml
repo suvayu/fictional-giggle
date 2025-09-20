@@ -37,7 +37,7 @@ jobs:
     - name: Python full version
       id: python-full
       run: |
-        python --version | ForEach-Object { 'version=' + ($_.Trim() -split '\s+')[1] } >> $GITHUB_OUTPUT
+        python --version | ForEach-Object { 'version=' + ($_.Trim() -split '\s+')[1] } >> $Env:GITHUB_OUTPUT
     - name: Recall Python version ${{ steps.python-full.outputs.version }}
       run: echo ${{ steps.python-full.outputs.version }}
     - name: Build literate-octo-umbrella
