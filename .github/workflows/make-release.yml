@@ -23,13 +23,17 @@ jobs:
         path: literate-octo-umbrella
         ref: ${{ inputs.git-tag }}
         fetch-depth: 0
+    - name: List files
+      run: |
+        Get-ChildItem .
+        Get-ChildItem literate-octo-umbrella
     - name: "Set up Python"
       uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
-        cache: pip
-        cache-dependency-path: |
-          literate-octo-umbrella/pyproject.toml
+        # cache: pip
+        # cache-dependency-path: |
+        #   literate-octo-umbrella/pyproject.toml
     - name: Python full version
       id: python-full
       run: |
