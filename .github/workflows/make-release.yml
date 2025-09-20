@@ -35,11 +35,11 @@ jobs:
         # cache-dependency-path: |
         #   literate-octo-umbrella/pyproject.toml
     - name: Python full version
-      id: python_full
+      id: python-full
       run: |
         python --version | ForEach-Object { 'version=' + ($_.Trim() -split '\s+')[1] } >> $GITHUB_OUTPUT
-    - name: Recall Python version ${{ steps.python_full.outputs.version }}
-      run: echo ${{ steps.python_full.outputs.version }}
+    - name: Recall Python version ${{ steps.python-full.outputs.version }}
+      run: echo ${{ steps.python-full.outputs.version }}
     - name: Build literate-octo-umbrella
       run: python -m build literate-octo-umbrella
     - name: Release literate-octo-umbrella@${{ inputs.git-tag }}
