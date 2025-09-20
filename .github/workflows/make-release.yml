@@ -41,7 +41,9 @@ jobs:
     - name: Recall Python version ${{ steps.python-full.outputs.version }}
       run: echo ${{ steps.python-full.outputs.version }}
     - name: Build literate-octo-umbrella
-      run: python -m build literate-octo-umbrella
+      run: |
+        python -m pip install build
+        python -m build literate-octo-umbrella
     - name: Release literate-octo-umbrella@${{ inputs.git-tag }}
       uses: softprops/action-gh-release@v2
       with:
