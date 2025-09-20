@@ -1,0 +1,50 @@
+name: Reusable workflow to make a literate-octo-umbrella release
+description: Make a release
+
+on:
+  workflow_dispatch:
+    inputs:
+      git-tag:
+        description: Git tag to release
+        type: string
+        required: true
+      python-version:
+        type: string
+        required: true
+
+jobs:
+  make-release:
+    if: inputs.ver != 'skip'
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        repository: 'suvayu/literate-octo-umbrella'
+        path: literate-octo-umbrella
+        ref: ${{ inputs.git-tag }}
+        fetch-depth: 0
+    - name: "Set up Python"
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+        cache: pip
+        cache-dependency-path: |
+          literate-octo-umbrella/pyproject.toml
+    - name: Python full version
+      id: python-full
+      run: |
+        python --version | ForEach-Object { 'version=' + ($_.Trim() -split '\s+')[1] } >> $GITHUB_OUTPUT
+    - name: Recall Python version ${{ steps.python-full.outputs.version }}
+      run: echo ${{ steps.python-full.outputs.version }}
+    - name: Build literate-octo-umbrella
+      run: python -m build literate-octo-umbrella
+    - name: Release literate-octo-umbrella@${{ inputs.git-tag }}
+      uses: softprops/action-gh-release@v2
+      with:
+        repository: suvayu/literate-octo-umbrella
+        tag_name: ${{ inputs.git-tag }}
+        body: |
+          \## Changes
+          See the [README](https://github.com/suvayu/literate-octo-umbrella/blob/${{ inputs.git-tag }}/README.md)
+        files: |
+          dist/*.whl
