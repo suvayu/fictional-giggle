@@ -14,43 +14,7 @@ on:
 
 jobs:
   make-release:
-    if: inputs.ver != 'skip'
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v5
-      with:
-        repository: 'suvayu/literate-octo-umbrella'
-        path: literate-octo-umbrella
-        ref: ${{ inputs.git-tag }}
-        fetch-depth: 0
-    - name: List files
-      run: |
-        Get-ChildItem .
-        Get-ChildItem literate-octo-umbrella
-    - name: "Set up Python"
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ inputs.python-version }}
-        # cache: pip
-        # cache-dependency-path: |
-        #   literate-octo-umbrella/pyproject.toml
-    - name: Python full version
-      id: python-full
-      run: |
-        python --version | ForEach-Object { 'version=' + ($_.Trim() -split '\s+')[1] } >> $Env:GITHUB_OUTPUT
-    - name: Recall Python version ${{ steps.python-full.outputs.version }}
-      run: echo ${{ steps.python-full.outputs.version }}
-    - name: Build literate-octo-umbrella
-      run: |
-        python -m pip install build
-        python -m build literate-octo-umbrella
-    - name: Release literate-octo-umbrella@${{ inputs.git-tag }}
-      uses: softprops/action-gh-release@v2
-      with:
-        repository: suvayu/literate-octo-umbrella
-        tag_name: ${{ inputs.git-tag }}
-        body: |
-          \## Changes
-          See the [README](https://github.com/suvayu/literate-octo-umbrella/blob/${{ inputs.git-tag }}/README.md)
-        files: |
-          literate-octo-umbrella/dist/*.whl
+    uses: suvayu/literate-octo-umbrella/.github/workflows/make-release.yml
+    with:
+      python-version: ${{ inputs.python-version }}
+      git-tag: ${{ inputs.git-tag }}
