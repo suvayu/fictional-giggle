@@ -14,6 +14,7 @@ on:
 
 jobs:
   make-release:
+    runs-on: linux-latest
     steps:
     - name: Make literate-octo-umbrella release
       run: |
