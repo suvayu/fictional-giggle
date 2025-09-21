@@ -14,7 +14,7 @@ on:
 
 jobs:
   make-release:
-    uses: suvayu/literate-octo-umbrella/.github/workflows/make-release.yml
+    uses: suvayu/literate-octo-umbrella/.github/workflows/make-release.yml@master
     with:
       python-version: ${{ inputs.python-version }}
       git-tag: ${{ inputs.git-tag }}
